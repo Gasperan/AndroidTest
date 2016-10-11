@@ -6,19 +6,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
-import org.robolectric.internal.Shadow;
 import org.robolectric.shadows.ShadowActivity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.robolectric.util.FragmentTestUtil.startFragment;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
@@ -39,20 +39,27 @@ public class ExampleUnitTest {
         ((Button) activity.findViewById(R.id.button)).performClick();
         String result = ((TextView) activity.findViewById(R.id.textView)).getText() + "";
 
-        assertEquals(text,result);
+        assertEquals(text, result);
     }
 
     @Test
     public void testNewActivity() throws Exception {
         Class sec = SecondActivity.class;
-        Intent expectedIntent = new Intent(activity,SecondActivity.class);
+        Intent expectedIntent = new Intent(activity, SecondActivity.class);
 
-        ((Button)activity.findViewById(R.id.buttonNewActivity)).performClick();
+        ((Button) activity.findViewById(R.id.buttonNewActivity)).performClick();
 
 
         ShadowActivity shadow = Shadows.shadowOf(activity);
         Intent actualIntent = shadow.getNextStartedActivity();
 
         assertTrue(expectedIntent.filterEquals(actualIntent));
+    }
+
+    @Test
+    public void probarFragment() throws Exception {
+        //TestFragment fragment = TestFragment.newInstance();
+        //startFragment(fragment);
+        //assertNotNull(fragment);
     }
 }

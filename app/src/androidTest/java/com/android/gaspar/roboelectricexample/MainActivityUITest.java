@@ -13,10 +13,9 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.IsNull.notNullValue;
 
-/**
- * Created by gaspar on 05-10-16.
- */
+
 @RunWith(AndroidJUnit4.class)
 public class MainActivityUITest {
 
@@ -32,8 +31,28 @@ public class MainActivityUITest {
         onView(withId(R.id.editText)).perform(typeText(givenString));
         onView(withId(R.id.button)).perform(click());
 
+        /*
+        * se usa para crear tus propios matcher
+        * BoundedMatcher myMatcher = new BoundedMatcher<>() {
+        * ....
+        * };
+        * */
+
         // Assert
         onView(withId(R.id.textView)).check(matches(withText(givenString)));
+
+    }
+
+    @Test
+    public void checkLaunchSecondActivity() throws Exception {
+        //arrange
+        String textInSecondActivity = "Soy el segundo activity";
+
+        //act
+        onView(withId(R.id.buttonNewActivity)).perform(click());
+
+        //assert
+        onView(withText(textInSecondActivity)).check(matches(notNullValue()));
 
     }
 
